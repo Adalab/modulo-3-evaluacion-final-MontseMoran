@@ -1,11 +1,11 @@
 import CharacterCard from "./CharacterCard";
 
-function CharacterList({pCharacters}) {
+function CharacterList({pcharacters}) {
 
   return (
   <>
  <ul className="characters-list">
-  {pCharacters.map((oneCharacter)=>(
+  {pcharacters.map((oneCharacter)=>(
     <CharacterCard
     key={oneCharacter.id || oneCharacter.name}
     character={oneCharacter}

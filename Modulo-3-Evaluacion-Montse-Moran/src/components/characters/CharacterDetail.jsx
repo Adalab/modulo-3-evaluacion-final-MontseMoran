@@ -1,6 +1,7 @@
 function CharacterDetail(){
     return (
         <>
+        <h2>Detakke del componente</h2>
         </>
     )
 }

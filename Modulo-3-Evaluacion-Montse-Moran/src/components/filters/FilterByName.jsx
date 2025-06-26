@@ -1,14 +1,20 @@
-function FilterByName({filterName, handleFilterName}){
-    return (
-        <>
-        <input
+function FilterByName({ pfilterName, psetFilterName }) {
+
+  const handleFilterName = (ev) => {
+    psetFilterName(ev.target.value);
+  };
+
+  return (
+    <form>
+
+      <input
         type="text"
         placeholder="Filtra por nombre"
-        value={filterName}
-        onChange={(ev)=> handleFilterName(ev.target.value)}
-        />
-        </>
-    )
+        value={pfilterName}
+        onChange={handleFilterName}
+      />
+   </form>
+  );
 }
 
 export default FilterByName;

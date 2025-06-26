@@ -1,47 +1,55 @@
-
 import "./App.css";
-import Header from "./components/layout/Header";
-import FilterByHouse from "./components/filters/FilterByHouse";
-import FilterByName from "./components/filters/FilterByName";
 import CharacterDetail from "./components/characters/CharacterDetail";
-import CharacterList from "./components/characters/CharacterList";
-import { useState , useEffect} from "react";
-import {Routes, Route} from "react-router-dom"
+import { useState, useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
+import Landing from "./components/layout/Landing";
 
 function App() {
+  const [characters, setCharacters] = useState([]);
+  const [filterName, setFilterName] = useState("");
+  const [filterHouse, setFilterHouse] = useState("Todas");
 
- const [characters, setCharacters]= useState ([])
- const [filterName, setFilterName]= useState("")
- console.log("filterName:", filterName);
+  useEffect(() => {
+    fetch("https://hp-api.onrender.com/api/characters/")
+      .then((response) => response.json())
+      .then((data) => {
+        const newData = data.map((item) => ({
+          ...item,
+          house: item.house === "" ? "sin casa" : item.house,
+        }));
+        setCharacters(newData);
+      });
+  }, []);
+  const houses = [...new Set(characters.map((item) => item.house))];
 
- useEffect (()=>{
-fetch("https://hp-api.onrender.com/api/characters/house/gryffindor")
-.then (response => response.json())
-.then (data=>{
-  setCharacters (data)
-})
- }, []);
 
- const filteredCharacters = characters.filter(item=>item.name.toLowerCase().includes(filterName.toLowerCase()))
+  const filteredCharacters = characters
+    .filter((item) =>
+      item.name.toLowerCase().includes(filterName.toLowerCase())
+    )
+    .filter((item) => filterHouse === "Todas" || item.house === filterHouse);
+
   return (
     <>
-      <Header/>
       <Routes>
         <Route
-        path="/"
-        element={
-          <>
-          <FilterByName
-          filterName={filterName}
-          handleFilterName={setFilterName}
-          />
-          <FilterByHouse/>
-          <CharacterList pCharacters={filteredCharacters}/>
-          </>
-        }
+          path="/"
+          element={
+            <Landing
+              pfilterName={filterName}
+              psetFilterName={setFilterName}
+              phouses={houses}
+              pfilterHouse={filterHouse}
+              psetFilterHouse={setFilterHouse}
+              pcharacters={filteredCharacters}
+            />
+          }
         />
-      </Routes>
 
+        <Route path="detail/:id" element={<CharacterDetail />} />
+
+        <Route path="*" element={<h1>Página no encontrada</h1>} />
+      </Routes>
     </>
   );
 }
