@@ -1,10 +1,11 @@
 import {Link} from "react-router-dom"
+import "../../styles/Characters.scss"
 
 function CharacterCard({character}){
     const placeholder = "https://placehold.co/300x400?text=No+Image"
 
     return (
-        <Link to={"detail/"+ character.id}>
+        <Link to={`/detail/${character.id}`}>
          <li className="character-card">
             <img 
             src={character.image || placeholder} 
@@ -13,6 +14,7 @@ function CharacterCard({character}){
             />
             <h3 className="character-card__name">{character.name}</h3>
             <p className="character-card__species">{character.species}</p>
+          
         </li>
         </Link>
     )

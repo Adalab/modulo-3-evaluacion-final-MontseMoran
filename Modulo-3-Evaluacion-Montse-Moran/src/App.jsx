@@ -1,13 +1,15 @@
-import "./App.css";
+import "./styles/App.scss"
 import CharacterDetail from "./components/characters/CharacterDetail";
 import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import Landing from "./components/layout/Landing";
+import Header from "./components/layout/Header";
 
 function App() {
   const [characters, setCharacters] = useState([]);
   const [filterName, setFilterName] = useState("");
-  const [filterHouse, setFilterHouse] = useState("Todas");
+  const [filterHouse, setFilterHouse] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetch("https://hp-api.onrender.com/api/characters/")
@@ -18,6 +20,7 @@ function App() {
           house: item.house === "" ? "sin casa" : item.house,
         }));
         setCharacters(newData);
+        setIsLoading(false);
       });
   }, []);
   const houses = [...new Set(characters.map((item) => item.house))];
@@ -27,14 +30,17 @@ function App() {
     .filter((item) =>
       item.name.toLowerCase().includes(filterName.toLowerCase())
     )
-    .filter((item) => filterHouse === "Todas" || item.house === filterHouse);
+    .filter( item => filterHouse === "" || filterHouse === "Todas" ? true
+    : item.house === filterHouse);
 
   return (
     <>
+    <Header/>
       <Routes>
         <Route
           path="/"
           element={
+            <div className="landing-page">
             <Landing
               pfilterName={filterName}
               psetFilterName={setFilterName}
@@ -42,11 +48,13 @@ function App() {
               pfilterHouse={filterHouse}
               psetFilterHouse={setFilterHouse}
               pcharacters={filteredCharacters}
+              isLoading={isLoading}
             />
+            </div>
           }
         />
 
-        <Route path="detail/:id" element={<CharacterDetail />} />
+        <Route path="detail/:id" element={<CharacterDetail pcharacterList={characters}/>} />
 
         <Route path="*" element={<h1>Página no encontrada</h1>} />
       </Routes>

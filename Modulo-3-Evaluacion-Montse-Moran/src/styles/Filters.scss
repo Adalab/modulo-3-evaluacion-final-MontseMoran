@@ -1,0 +1,48 @@
+.filters {
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+  margin: 0 auto;
+  align-items: center;
+  gap: 1rem;
+}
+
+.form-name input {
+  background-color: #fef6e4;
+  border: 2px solid #d4af37;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  font-family: "Georgia", serif;
+  font-size: 1rem;
+  color: #2e2e2e;
+  width: 100%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+  &::placeholder {
+    font-style: italic;
+    color: #7b6c44;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
+  }
+}
+.form-house {
+  max-width: 500px;
+  margin: 0;
+}
+
+.form-house select {
+  width: 100%;
+  padding: 0.6rem;
+  font-family: "Georgia", serif;
+  font-size: 1rem;
+  color: #2e2e2e;
+  background-color: #fef6e4;
+  border: 2px solid #d4af37;
+  border-radius: 6px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  margin: 0;
+}
